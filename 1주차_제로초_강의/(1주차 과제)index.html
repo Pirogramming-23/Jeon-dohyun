@@ -1,12 +1,12 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name = "viewport" content = "IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <title>NAVER</title>
     <style>
-        :root {
+        :root{
             --color_title: #080808;
             --color_title_rgb: 8, 8, 8;
             --color_body: #101010;
@@ -76,31 +76,40 @@
             margin: 0;
             padding: 0;
         }
-        #wrap {
+        #wrap{
             text-align: center;
         }
-        #wrap-center {
-            display: inline-block;
+        #wrap-center{
             width: 1280px;
+            display: inline-block;
             background-color: yellow;
         }
-        #header {
+        #header{
             text-align: left;
+            position: relative;
         }
-        #header-hamburger {
-            margin-top: 18px;
+        #header-hamburger{
+            position : absolute;
+            top: 18px;
+            left: -10px;
             padding: 10px;
             display: inline-block;
             background: none;
             border: none;
             cursor: pointer;
         }
-        #header-hamburger:hover {
+        #header-hamburger:hover::before{
+            position: absolute;
+            content: '';
+            left: 1px;
+            top: 1px;
+            width: 44px;
+            height: 44px;
             background-color: var(--color_option_bg);
             border-radius: 50%;
         }
         #header-hamburger > div {
-            background-image: url(./sp_main.04eb92b7.png);
+            background-image: url(./sp_main.png);
             width: 26px;
             height: 26px;
             background-repeat: no-repeat;
@@ -108,7 +117,7 @@
             background-position: -311px -166px;
         }
         #main {
-            height: 200px;
+            height: 2000px;
         }
     </style>
 </head>
