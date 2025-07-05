@@ -1,0 +1,210 @@
+/* 전체 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #3f3e3e;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* 시간 표시 */
+.display-container {
+  background: #a8c5a8;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.time-display {
+  font-size: 32px;
+  font-weight: 400;
+  color: white;
+  letter-spacing: 2px;
+}
+
+/* 컨트롤 버튼 */
+.controls {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.control-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 60px;
+}
+
+.control-btn.start {
+  background: #4caf50;
+  color: white;
+  border: 1px solid #4caf50;
+}
+
+.control-btn.start:hover {
+  background: #45a049;
+}
+
+.control-btn.stop {
+  background: #f44336;
+  color: white;
+  border: 1px solid #f44336;
+}
+
+.control-btn.stop:hover {
+  background: #da190b;
+}
+
+.control-btn.reset {
+  background: #2196f3;
+  color: white;
+  border: 1px solid #2196f3;
+}
+
+.control-btn.reset:hover {
+  background: #0b7dda;
+}
+
+/* 기록 섹션 */
+.records-section {
+  margin-top: 20px;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 5px;
+}
+
+/* 전체 선택 체크박스 */
+.select-all-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.select-all-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.select-all-label {
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.record-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.record-controls .control-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  min-width: 50px;
+}
+
+.control-btn.delete {
+  background: #e91e63;
+  color: white;
+  border: 1px solid #e91e63;
+}
+
+.control-btn.delete:hover {
+  background: #c2185b;
+}
+
+.control-btn.delete-all {
+  background: #795548;
+  color: white;
+  border: 1px solid #795548;
+  font-size: 16px;
+  min-width: 40px;
+}
+
+.control-btn.delete-all:hover {
+  background: #5d4037;
+}
+
+/* 기록 리스트 */
+.records-list {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.record-item:last-child {
+  margin-bottom: 0;
+}
+
+.record-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.record-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.record-time {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.empty-message {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px;
+}

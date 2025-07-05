@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>피로그래밍 스톱워치</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>피로그래밍 스톱워치</h1>
+
+      <!-- 스톱워치 섹션 -->
+      <div id="stopwatch-section" class="section active">
+        <div class="display-container">
+          <div class="time-display" id="time-display">00:00:00</div>
+        </div>
+
+        <div class="controls">
+          <button id="start-btn" class="control-btn start">start</button>
+          <button id="stop-btn" class="control-btn stop">stop</button>
+          <button id="reset-btn" class="control-btn reset">reset</button>
+        </div>
+      </div>
+
+      <!-- 기록 섹션 -->
+      <div class="records-section">
+        <div class="records-header">
+          <div class="select-all-container">
+            <input
+              type="checkbox"
+              id="select-all-checkbox"
+              class="select-all-checkbox"
+            />
+            <label for="select-all-checkbox" class="select-all-label"
+              >구간 기록</label
+            >
+          </div>
+          <div class="record-controls">
+            <button id="delete-btn" class="control-btn delete-all">🗑️</button>
+          </div>
+        </div>
+
+        <div class="records-list" id="records-list">
+          <!-- 기록들이 여기에 추가됩니다 -->
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
