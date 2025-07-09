@@ -21,3 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
 ]
+# 장고 ORM과 쿼리셋(QuerySets) 학습
