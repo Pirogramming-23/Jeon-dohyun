@@ -1,0 +1,273 @@
+<!-- 리스트에서 해당 영화 제목 클릭시 여기로 이동 -->
+<!-- 리뷰 전체 내용 -->
+<!-- 영화제목/감독/주연/장르/별점/러닝타임/리뷰 내용 -->
+<!-- 우측 상단 수정하기 버튼 -> review_form으로 이동 -->
+<!-- 우측 상단 삭제 버튼 -> 정말 삭제하겠냐는 alert->삭제 후 review_list로 이동 -->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ review.title }} - My Movie Reviews</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-buttons {
+            background-color: #34495e;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo:hover {
+            color: #3498db;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            display: inline-block;
+            font-family: Arial, sans-serif;
+        }
+
+        .write-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .write-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .review-detail {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .movie-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: #34495e;
+            font-size: 1.1rem;
+        }
+
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .star {
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+
+        .review-content {
+            margin-top: 2rem;
+        }
+
+        .content-label {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-text {
+            color: #34495e;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+
+        .created-date {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 2rem;
+            font-style: italic;
+        }
+        </style>
+    </head>
+    <body>
+        <!-- 헤더 -->
+        <header class="header">
+        <!-- 좌측 상단 로고 (클릭시 review_list로 이동) -->
+        <a href="{% url 'review_list' %}" class="logo">my Movie reviews</a>
+
+        <!-- 우측 상단 리뷰 작성 버튼 -->
+        <a href="{% url 'review_create' %}" class="btn write-btn"
+            >리뷰 작성하기</a
+        >
+        </header>
+
+        <!-- 수정/삭제 버튼 영역 -->
+        <div class="action-buttons">
+        <a href="{% url 'review_edit' review.id %}" class="btn edit-btn">수정</a>
+        <form
+            method="post"
+            action="{% url 'review_delete' review.id %}"
+            style="display: inline"
+        >
+            {% csrf_token %}
+            <button type="submit" class="btn delete-btn">삭제</button>
+        </form>
+        </div>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="container">
+        <div class="review-detail">
+            <!-- 영화 제목 -->
+            <h1 class="movie-title">{{ review.title }}</h1>
+
+            <!-- 영화 정보 그리드 -->
+            <div class="movie-info-grid">
+            <!-- 감독 -->
+            <div class="info-item">
+                <div class="info-label">감독</div>
+                <div class="info-value">{{ review.director }}</div>
+            </div>
+
+            <!-- 주연 -->
+            <div class="info-item">
+                <div class="info-label">주연</div>
+                <div class="info-value">{{ review.actors }}</div>
+            </div>
+
+            <!-- 장르 -->
+            <div class="info-item">
+                <div class="info-label">장르</div>
+                <div class="info-value">{{ review.genre }}</div>
+            </div>
+
+            <!-- 개봉 년도 -->
+            <div class="info-item">
+                <div class="info-label">개봉 년도</div>
+                <div class="info-value">{{ review.release_year }}년</div>
+            </div>
+
+            <!-- 러닝타임 -->
+            <div class="info-item">
+                <div class="info-label">러닝타임</div>
+                <div class="info-value">{{ review.running_time }}분</div>
+            </div>
+
+            <!-- 별점 -->
+            <div class="info-item">
+                <div class="info-label">별점</div>
+                <div class="info-value">
+                <div class="rating-display">
+                    {% for i in review.stars_filled %}
+                    <span class="star">★</span>
+                    {% endfor %} {% for i in review.stars_empty %}
+                    <span class="star">☆</span>
+                    {% endfor %}
+                    <span>({{ review.rating }}/5)</span>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- 리뷰 내용 -->
+            <div class="review-content">
+            <div class="content-label">리뷰 내용</div>
+            <div class="content-text">{{ review.content }}</div>
+            </div>
+
+            <!-- 작성일 -->
+            <div class="created-date">
+            작성일: {{ review.created_at|date:"Y년 m월 d일 H:i" }}
+            </div>
+        </div>
+        </div>
+    </body>
+</html>

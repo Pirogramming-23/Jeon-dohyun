@@ -1,0 +1,187 @@
+<!-- 메인 페이지 -->
+<!-- 영화 리뷰 리스트 -->
+<!-- 리뷰들의 개요. 각 영화의 제목, 개봉 년도, 장르, 별점 -->
+<!-- 좌측 상단 my Movie reviews 라는 로고(모든페이지에서 해당 헤더 유지) 클릭시 review_list로 -->
+<!-- 우측 상단 리뷰 작성하기 버튼(헤더에 포함, 모든 페이지에서 동일), 클릭->review_form으로 이동 -->
+<!-- 영화 제목 클릭-> review_detail 로 이동 -->
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Movie Reviews</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo:hover {
+            color: #3498db;
+        }
+
+        .write-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .write-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .movie-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .movie-title:hover {
+            color: #3498db;
+        }
+
+        .movie-info {
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        .movie-genre {
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        .rating {
+            color: #f39c12;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        .star {
+            color: #f39c12;
+        }
+
+        .no-reviews {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-top: 3rem;
+        }
+        </style>
+    </head>
+    <body>
+        <!-- 헤더 -->
+        <header class="header">
+        <!-- 좌측 상단 로고 (클릭시 review_list로 이동) -->
+        <a href="{% url 'review_list' %}" class="logo">my Movie reviews</a>
+
+        <!-- 우측 상단 리뷰 작성 버튼 -->
+        <a href="{% url 'review_create' %}" class="write-btn">리뷰 작성하기</a>
+        </header>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="container">
+        <h1 class="page-title">영화 리뷰 목록</h1>
+
+        <!-- 리뷰가 있을 때 -->
+        {% if reviews %}
+        <div class="review-grid">
+            {% for review in reviews %}
+            <div class="review-card">
+            <!-- 영화 제목 (클릭시 디테일 페이지로 이동) -->
+            <a href="{% url 'review_detail' review.id %}" class="movie-title"
+                >{{ review.title }}</a
+            >
+
+            <!-- 개봉 년도 -->
+            <div class="movie-info">개봉: {{ review.release_year }}년</div>
+
+            <!-- 장르 -->
+            <div class="movie-genre">장르: {{ review.genre }}</div>
+
+            <!-- 별점 -->
+            <div class="rating">
+                <span>별점: </span>
+                {% for i in review.stars_filled %}
+                <span class="star">★</span>
+                {% endfor %} {% for i in review.stars_empty %}
+                <span class="star">☆</span>
+                {% endfor %} ({{ review.rating }}/5)
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- 리뷰가 없을 때 -->
+        <div class="no-reviews">
+            <p>아직 작성된 리뷰가 없습니다.</p>
+            <p>첫 번째 리뷰를 작성해보세요!</p>
+        </div>
+        {% endif %}
+        </div>
+    </body>
+</html>
