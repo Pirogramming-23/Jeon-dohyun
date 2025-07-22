@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block title %}Instagram Clone - 홈{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- 정렬 및 필터 옵션 -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-home"></i> 피드
+                        </h5>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <!-- 정렬 옵션 -->
+                        <div class="btn-group" role="group">
+                            <a href="?sort=latest" class="btn btn-sm {% if sort_option == 'latest' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                                최신순
+                            </a>
+                            <a href="?sort=likes" class="btn btn-sm {% if sort_option == 'likes' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                                좋아요순
+                            </a>
+                            <a href="?sort=comments" class="btn btn-sm {% if sort_option == 'comments' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+                                댓글순
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 검색 결과 표시 -->
+                {% if search_query %}
+                    <div class="alert alert-info mt-3 mb-0">
+                        <i class="fas fa-search"></i> "{{ search_query }}" 검색 결과
+                        <a href="{% url 'instagram:home' %}" class="btn btn-sm btn-outline-info ms-2">전체보기</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 게시글 피드 -->
+        {% for post in posts %}
+            <div class="card mb-4 post-card" data-post-id="{{ post.id }}">
+                <!-- 게시글 헤더 -->
+                <div class="card-header bg-white border-0 d-flex align-items-center">
+                    <div class="d-flex align-items-center flex-grow-1">
+                        <i class="far fa-user-circle fs-2 text-secondary me-2"></i>
+                        <div>
+                            <h6 class="mb-0 fw-bold">{{ post.author.username }}</h6>
+                            <small class="text-muted">{{ post.created_at|date:"Y-m-d H:i" }}</small>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% if post.author == user %}
+                                <li><a class="dropdown-item text-danger" href="#">삭제</a></li>
+                                <li><a class="dropdown-item" href="#">수정</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="#">신고</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 게시글 이미지 -->
+                {% if post.images.all %}
+                    <div class="position-relative">
+                        <div class="post-images-container" data-post-id="{{ post.id }}">
+                            {% for image in post.images.all %}
+                                <img src="{{ image.image.url }}" 
+                                     class="card-img-top post-image {% if not forloop.first %}d-none{% endif %}" 
+                                     alt="게시글 이미지"
+                                     data-index="{{ forloop.counter0 }}">
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- 이미지 네비게이션 버튼 (이미지가 2개 이상일 때만) -->
+                        {% if post.images.all|length > 1 %}
+                            <button class="btn btn-light btn-sm image-nav-btn prev-btn position-absolute" 
+                                    style="left: 10px; top: 50%; transform: translateY(-50%); display: none;"
+                                    data-post-id="{{ post.id }}" data-direction="prev">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-light btn-sm image-nav-btn next-btn position-absolute" 
+                                    style="right: 10px; top: 50%; transform: translateY(-50%);"
+                                    data-post-id="{{ post.id }}" data-direction="next">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            
+                            <!-- 이미지 인디케이터 -->
+                            <div class="text-center mt-2">
+                                {% for image in post.images.all %}
+                                    <span class="badge image-indicator {% if forloop.first %}bg-primary{% else %}bg-secondary{% endif %}" 
+                                          data-post-id="{{ post.id }}" data-index="{{ forloop.counter0 }}">{{ forloop.counter }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <!-- 게시글 본문 및 상호작용 -->
+                <div class="card-body">
+                    <!-- 좋아요, 댓글 버튼 -->
+                    <div class="d-flex align-items-center mb-3">
+                        <button class="btn btn-link text-decoration-none p-0 me-3 like-btn" 
+                                data-post-id="{{ post.id }}">
+                            {% if user in post.likes.all %}
+                                <i class="fas fa-heart text-danger fs-4"></i>
+                            {% else %}
+                                <i class="far fa-heart fs-4"></i>
+                            {% endif %}
+                        </button>
+                        <button class="btn btn-link text-decoration-none p-0 me-3">
+                            <i class="far fa-comment fs-4"></i>
+                        </button>
+                        <button class="btn btn-link text-decoration-none p-0">
+                            <i class="far fa-share-square fs-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- 좋아요 수 -->
+                    <div class="like-count mb-2">
+                        <strong class="like-count-text">좋아요 {{ post.total_likes }}개</strong>
+                    </div>
+
+                    <!-- 게시글 내용 -->
+                    <div class="mb-3">
+                        <strong>{{ post.author.username }}</strong> {{ post.content }}
+                    </div>
+
+                    <!-- 댓글 표시 -->
+                    <div class="comments-section" data-post-id="{{ post.id }}">
+                        {% for comment in post.comments.all|slice:":3" %}
+                            <div class="comment-item mb-2" data-comment-id="{{ comment.id }}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <strong>{{ comment.author.username }}</strong> {{ comment.content }}
+                                        <small class="text-muted d-block">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                                        
+                                        <!-- 답글 버튼 -->
+                                        <button class="btn btn-link btn-sm p-0 text-muted reply-toggle-btn" 
+                                                data-comment-id="{{ comment.id }}">
+                                            답글 달기
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- 댓글 삭제 버튼 (작성자만) -->
+                                    {% if comment.author == user %}
+                                        <button class="btn btn-link btn-sm p-0 text-danger comment-delete-btn" 
+                                                data-comment-id="{{ comment.id }}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- 대댓글 표시 -->
+                                <div class="replies-section ms-4" data-comment-id="{{ comment.id }}">
+                                    {% for reply in comment.replies.all %}
+                                        <div class="reply-item mb-1" data-reply-id="{{ reply.id }}">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div class="flex-grow-1">
+                                                    <strong>{{ reply.author.username }}</strong> {{ reply.content }}
+                                                    <small class="text-muted d-block">{{ reply.created_at|date:"Y-m-d H:i" }}</small>
+                                                </div>
+                                                {% if reply.author == user %}
+                                                    <button class="btn btn-link btn-sm p-0 text-danger reply-delete-btn" 
+                                                            data-reply-id="{{ reply.id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <!-- 답글 작성 폼 (숨김 상태) -->
+                                <div class="reply-form mt-2" style="display: none;" data-comment-id="{{ comment.id }}">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control reply-input" 
+                                               placeholder="답글을 입력하세요..." data-comment-id="{{ comment.id }}">
+                                        <button class="btn btn-primary reply-submit-btn" 
+                                                data-comment-id="{{ comment.id }}">등록</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- 댓글 작성 폼 -->
+                    {% if user.is_authenticated %}
+                        <div class="comment-form mt-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control comment-input" 
+                                       placeholder="댓글을 입력하세요..." data-post-id="{{ post.id }}">
+                                <button class="btn btn-primary comment-submit-btn" data-post-id="{{ post.id }}">
+                                    게시
+                                </button>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-muted text-center mt-3">
+                            <a href="/admin/login/">로그인</a>하여 댓글을 작성하세요.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <!-- 게시글이 없을 때 -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="far fa-images fs-1 text-muted mb-3"></i>
+                    <h5>게시글이 없습니다</h5>
+                    <p class="text-muted">첫 번째 게시글을 작성해보세요!</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'instagram:post_create' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> 게시글 작성
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <!-- 페이지네이션 -->
+        {% if posts.has_other_pages %}
+            <nav aria-label="페이지 네비게이션">
+                <ul class="pagination justify-content-center">
+                    {% if posts.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_option != 'latest' %}&sort={{ sort_option }}{% endif %}">처음</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_option != 'latest' %}&sort={{ sort_option }}{% endif %}">이전</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ posts.number }}</span>
+                    </li>
+
+                    {% if posts.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_option != 'latest' %}&sort={{ sort_option }}{% endif %}">다음</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sort_option != 'latest' %}&sort={{ sort_option }}{% endif %}">마지막</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+venv/
+.env
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+earings/
+.eggs/
+parts/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django stuff:
+*.log
+local_settings.py
+settings_local.py
+
+# SQLite database
+*.sqlite3
+db.sqlite3
+
+# Media and static files (generated or uploaded)
+media/
+staticfiles/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime*
+
+# macOS and Windows generated files
+.DS_Store
+Thumbs.db
+
+# Pytest and coverage
+.coverage
+htmlcov/
+
+# Migrations (optional: keep if you commit migrations)
+# *__/migrations/**/__pycache__/
+# *__/migrations/*.pyc
+
+# Node modules (if any frontend tooling)
+node_modules/
+
+# Backup files
+*.bak
+*.orig
+*.swp
+*.tmp 
