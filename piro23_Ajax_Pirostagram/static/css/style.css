@@ -1,0 +1,409 @@
+/* 전체 레이아웃 */
+body {
+  background-color: #fafafa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 네비게이션 바 스타일 */
+.navbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+/* 검색 바 스타일 */
+#searchInput {
+  background-color: #efefef;
+  border: 1px solid #dbdbdb;
+  font-size: 14px;
+}
+
+#searchInput:focus {
+  background-color: white;
+  border-color: #0095f6;
+  box-shadow: 0 0 0 0.2rem rgba(0, 149, 246, 0.25);
+}
+
+#searchResults {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #efefef;
+}
+
+.search-result-item:hover {
+  background-color: #fafafa;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+/* 게시글 카드 스타일 */
+.post-card {
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-card .card-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #efefef;
+}
+
+.post-card .card-body {
+  padding: 0;
+}
+
+/* 게시글 이미지 스타일 */
+.post-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.post-images-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-nav-btn {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.image-nav-btn:hover {
+  opacity: 1;
+}
+
+.image-indicator {
+  margin: 0 2px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.image-indicator:hover {
+  opacity: 0.8;
+}
+
+/* 게시글 상호작용 버튼 */
+.post-card .card-body {
+  padding: 16px;
+}
+
+.like-btn,
+.comment-btn,
+.share-btn {
+  border: none;
+  background: none;
+  color: #262626;
+  transition: color 0.2s ease;
+}
+
+.like-btn:hover {
+  color: #ed4956;
+}
+
+.like-btn.liked i {
+  color: #ed4956;
+  animation: likeAnimation 0.3s ease;
+}
+
+@keyframes likeAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 댓글 섹션 스타일 */
+.comment-item,
+.reply-item {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comment-item strong,
+.reply-item strong {
+  font-weight: 600;
+}
+
+.replies-section {
+  border-left: 2px solid #efefef;
+  padding-left: 12px;
+  margin-top: 8px;
+}
+
+.reply-form {
+  margin-left: 16px;
+}
+
+.comment-delete-btn,
+.reply-delete-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.comment-item:hover .comment-delete-btn,
+.reply-item:hover .reply-delete-btn {
+  opacity: 1;
+}
+
+/* 댓글 입력 폼 스타일 */
+.comment-form {
+  border-top: 1px solid #efefef;
+  padding-top: 16px;
+}
+
+.comment-input,
+.reply-input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+.comment-input:focus,
+.reply-input:focus {
+  box-shadow: none;
+}
+
+.comment-submit-btn,
+.reply-submit-btn {
+  background: none;
+  border: none;
+  color: #0095f6;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-submit-btn:hover,
+.reply-submit-btn:hover {
+  color: #00376b;
+}
+
+/* 게시글 작성 페이지 스타일 */
+.card {
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: 1px solid #efefef;
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+  background-color: #0095f6;
+  border-color: #0095f6;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #00376b;
+  border-color: #00376b;
+}
+
+.btn-outline-primary {
+  color: #0095f6;
+  border-color: #0095f6;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0095f6;
+  border-color: #0095f6;
+}
+
+/* 페이지네이션 스타일 */
+.pagination .page-link {
+  color: #0095f6;
+  border-color: #dbdbdb;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #0095f6;
+  border-color: #0095f6;
+}
+
+.pagination .page-link:hover {
+  color: #00376b;
+  background-color: #f8f9fa;
+  border-color: #dbdbdb;
+}
+
+/* 알림 스타일 */
+.alert {
+  border-radius: 6px;
+  border: 1px solid;
+}
+
+.alert-info {
+  background-color: #e7f3ff;
+  border-color: #b8daff;
+  color: #0c5460;
+}
+
+.alert-success {
+  background-color: #d1edcc;
+  border-color: #badbcc;
+  color: #0f5132;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  color: #842029;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .post-image {
+    height: 300px;
+  }
+
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .post-card {
+    margin-bottom: 20px;
+  }
+
+  .image-nav-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .navbar .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .post-image {
+    height: 250px;
+  }
+
+  .card-body {
+    padding: 12px;
+  }
+
+  .comment-form {
+    padding-top: 12px;
+  }
+
+  .post-card .card-header {
+    padding: 10px 12px;
+  }
+}
+
+/* 로딩 애니메이션 */
+.loading-spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #0095f6;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 빈 상태 스타일 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #8e8e8e;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+/* 사용자 프로필 이미지 스타일 */
+.profile-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-image-lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+  border: 1px solid #dbdbdb;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px 0;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #fafafa;
+}
+
+/* 포커스 상태 개선 */
+.btn:focus,
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 149, 246, 0.25);
+}
+
+/* 스크롤바 스타일 (Webkit 브라우저용) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
